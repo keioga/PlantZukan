@@ -148,49 +148,27 @@ async function predictLoop() {
         }
 
         if (found && foundData) {
-          const score = Math.round(found.probability * 100);
-          // 確信度によって色を変える
-          const scoreColor = score >= 70 ? '#00df89' : score >= 40 ? '#f0c040' : '#ff8c69';
+        const score = Math.round(found.probability * 100);
 
-          statusDiv.innerHTML = `
-            <div style="
-              display: inline-block;
-              background: #1a1a2e;
-              border: 2px solid #00df89;
-              border-radius: 16px;
-              padding: 16px 24px;
-              text-align: center;
-              min-width: 220px;
-              box-shadow: 0 0 20px rgba(0,223,137,0.3);
-            ">
-              <div style="font-size: 3rem; margin-bottom: 8px;">${foundData.emoji}</div>
-              <div style="color: #aaa; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 4px;">
-                📖 動物図鑑
-              </div>
-              <div style="color: #ffffff; font-size: 1.8rem; font-weight: bold; margin-bottom: 4px;">
-                ${foundData.ja}
-              </div>
-              <div style="color: #888; font-size: 0.9rem; margin-bottom: 10px;">
-                ${found.name}
-              </div>
-              <div style="
-                display: inline-block;
-                background: ${scoreColor};
-                color: #000;
-                font-weight: bold;
-                font-size: 0.9rem;
-                padding: 3px 12px;
-                border-radius: 20px;
-              ">確信度 ${score}%</div>
+        statusDiv.innerHTML = `
+            <div style="color: #00df89; font-size: 1.2rem; font-weight: bold; margin-bottom: 5px;">
+            📖 動物図鑑に登録！
             </div>
-          `;
-        } else {
-          const hint = predictions[0].className.split(',')[0];
-          statusDiv.innerHTML = `
-            <span style="color:#888; font-size:1.2rem;">
-              🔍 探索中... (予測: ${hint})
+            <span style="font-size: 1.8rem; font-weight: bold; color: #ffffff;
+                        background-color: #1a5276; padding: 4px 12px; border-radius: 8px;">
+            ${foundData.emoji} ${foundData.ja}
             </span>
-          `;
+            <span style="font-size: 1.1rem; color: #aaa; margin-left: 8px;">
+            確信度 ${score}%
+            </span>
+        `;
+        } else {
+        const hint = predictions[0].className.split(',')[0];
+        statusDiv.innerHTML = `
+            <span style="color:#888; font-size:1.2rem;">
+            🔍 探索中... (予測: ${hint})
+            </span>
+        `;
         }
       }
     } catch (err) {
